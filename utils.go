@@ -2,7 +2,7 @@ package main
 
 import (
 	"regexp"
-	//"strings"
+	"strings"
 )
 
 func check(err error) {
@@ -36,4 +36,8 @@ func stringInSlice(x string, arr []string) bool {
 		}
 	}
 	return false
+}
+
+func humanSpaceDebug(s string) string {
+	return strings.Replace(s, " ", "*", -1)
 }

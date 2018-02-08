@@ -60,9 +60,7 @@ func findCounterPart(code *string, opening_char string, ignore []string) (loc [2
 		parity       int    = 0
 	)
 
-	*code = (*code)[opening_loc:]
-
-	for i := 0; i < len(*code); i++ {
+	for i := opening_loc; i < len(*code); i++ {
 		char := string((*code)[i])
 
 		is_a_boundary_char := (char == opening_char) || (char == closing_char)
