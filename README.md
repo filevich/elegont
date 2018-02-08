@@ -1,4 +1,2 @@
 # elegont
-1984
-
-ohh hell no
+straight out of 1984
