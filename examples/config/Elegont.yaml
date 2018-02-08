@@ -1,0 +1,59 @@
+# test-custom-config-2
+
+file_extension:  .ego
+input_dir:       ./examples/
+out_dir:         ./test/out/
+recursive:       FALSE
+remove_comments: TRUE
+last_comma:      FALSE
+identation:      TAB
+syntax:
+
+  import:
+    - variant:    inLine
+      definition: import\s\"[[:alpha:]]+\" # e.g.: import "fmt"
+
+  comment:
+    - variant:    inLine
+      definition: someregexphere
+
+  if:
+    - variant:    inLine
+      definition: someregexphere
+
+  while:
+    - variant:    inLine
+      definition: someregexphere
+
+  package:
+    - variant:    inLine
+      definition: package\s[[:alpha:]]+
+
+  type:
+    - variant:    inLine
+      definition: someregexphere
+
+  struct:
+    - variant:    inLine
+      definition: someregexphere
+
+  variable:
+    - variant:    inLine
+      definition: let\s[[:alpha:]]+\s[[:alpha:]]+\s\=\s.+ # e.g.: let n int = 99
+
+  for:
+    - variant:    inBlock
+      definition: for [^\n]+\; [^\n]+\; [^\n]+
+      delimiters: [TABS]
+
+  func:
+    - variant:    inLine
+      definition: ([[:word:]]+)(\.[[:word:]]+)?\([^\n]+\) # e.g.: fmt.Printf("Hello bro %v", n)
+
+    - variant:    inBlock
+      definition: func\s[[:alpha:]]+\(.?\) # e.g.: func main()
+      delimiters: [CURLY_BRACKETS, TABS]
+
+  inc:
+    - variant:    inLine
+      definition: ([[:word:]]+)\+\+ # e.g.: n++
