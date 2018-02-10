@@ -15,8 +15,8 @@ func Test_GetChunk1(t *testing.T) {
 
 	expected := code[11 : len(code)-1]
 
-	opening_char := `{`
-	ignore := []string{`"`, `'`, "`"}
+	var opening_char byte = '{'
+	ignore := ALL_QUOTES
 
 	loc, err := getChunk(&code, opening_char, ignore)
 	got := code[loc[0]+1 : loc[1]]
@@ -81,8 +81,8 @@ func Test_GetChunk2(t *testing.T) {
 
 	expected := code[len(`func getChunk(code *string, opening_char string, ignore []string) (loc [2]int, err error) {`) : len(code)-1]
 
-	opening_char := `{`
-	ignore := []string{`"`, `'`, "`"}
+	var opening_char byte = '{'
+	ignore := ALL_QUOTES
 
 	loc, err := getChunk(&code, opening_char, ignore)
 	got := code[loc[0]+1 : loc[1]]

@@ -30,7 +30,7 @@ func countLines(str ...*string) int {
 	return numlines
 }
 
-func InSlice(x string, arr []string) bool {
+func InSlice(x byte, arr []byte) bool {
 	for _, elem := range arr {
 		if elem == x {
 			return true

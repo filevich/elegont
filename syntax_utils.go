@@ -7,9 +7,9 @@ import (
 )
 
 var (
-	QUOTES     = []string{`"`, `'`}
-	ALL_QUOTES = append(QUOTES, "`")
-	ESCAPE     = "\\"
+	QUOTES          = []byte{'"', '\''}
+	ALL_QUOTES      = append(QUOTES, '`')
+	ESCAPE     byte = '\\'
 )
 
 /**
@@ -57,16 +57,16 @@ func getIdentPatt(str string) (pattern string) {
  * @return loc          [2]int        The position of opening and closing chars
  * @return err          error
  */
-func getChunk(code *string, opening_char string, ignore []string) (loc [2]int, err error) {
+func getChunk(code *string, opening_char byte, ignore []byte) (loc [2]int, err error) {
 
 	var (
-		opening_loc  int    = strings.Index(*code, opening_char)
-		closing_char string = getClosingChar(opening_char)
-		parity       int    = 0
+		opening_loc  int  = strings.Index(*code, string(opening_char))
+		closing_char byte = getClosingChar(opening_char)
+		parity       int  = 0
 	)
 
 	for i := opening_loc; i < len(*code); i++ {
-		char := string((*code)[i])
+		var char byte = (*code)[i]
 
 		updateParity(&parity, code, i, opening_char, closing_char)
 
@@ -84,26 +84,27 @@ func getChunk(code *string, opening_char string, ignore []string) (loc [2]int, e
 	return loc, errors.New("chunk's closing tag 404 not found")
 }
 
-func getClosingChar(c string) string {
-	var res string
+func getClosingChar(c byte) byte {
+	var res byte
 
 	switch c {
-	case `{`:
-		res = `}`
-	case `'`:
-	case `"`:
+	case '{':
+		res = '}'
+	case '"':
+	case '\'':
+	case '`':
 		res = c
 	}
 
 	return res
 }
 
-func updateParity(parity *int, code *string, i int, opening_char, closing_char string) {
+func updateParity(parity *int, code *string, i int, opening_char, closing_char byte) {
 	var (
-		char                    = string((*code)[i])
+		char                    = (*code)[i]
 		is_a_boundary_char bool = (char == opening_char) || (char == closing_char)
 		is_an_opening_char bool = (InSlice(opening_char, QUOTES) && ((*parity)%2 == 0)) || (char == closing_char && !InSlice(opening_char, QUOTES))
-		is_false_positive  bool = InSlice(opening_char, QUOTES) && ((*parity) > 0) && (char == opening_char) && (string((*code)[i-1]) == ESCAPE)
+		is_false_positive  bool = InSlice(opening_char, QUOTES) && ((*parity) > 0) && (char == opening_char) && ((*code)[i-1] == ESCAPE)
 	)
 
 	if is_a_boundary_char && !is_false_positive {
