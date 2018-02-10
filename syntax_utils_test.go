@@ -101,3 +101,33 @@ func Test_GetChunk2(t *testing.T) {
 		)
 	}
 }
+
+func Test_GetChunk3(t *testing.T) {
+	code := `func foo(){
+  i++
+  str := "asds}s\"\}}\"\"}}}\"\{d"
+  return bar()
+}`
+
+	expected := code[11 : len(code)-1]
+
+	var opening_char byte = '{'
+	ignore := ALL_QUOTES
+
+	loc, err := getChunk(&code, opening_char, ignore)
+	got := code[loc[0]+1 : loc[1]]
+
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	if !strings.EqualFold(got, expected) {
+		t.Error(
+			"\nFOR:", code,
+			"\nEXPECTED:", debugSpaces(expected),
+			"\nGOT:", debugSpaces(got),
+			"\nAFTER:", code,
+		)
+	}
+}
