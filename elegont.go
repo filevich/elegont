@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "errors"
+	"errors"
 	"fmt"
 	"regexp"
 	//"encoding/json"
@@ -55,13 +55,11 @@ func Dissect(ego *string, syntax Syntax) (string, error) {
 		procesedLines += countLines(&whiteSpaces)
 		code, err := cutNextComponent(ego, syntax)
 
-		if err != nil {
-			if err, ok := err.(*SyntaxError); ok {
-				err.line = procesedLines + 1
-				err.file = "fileName.ego"
-				err.code = (*ego)[:regexp.MustCompile(`^[^\n]+`).FindAllStringIndex(*ego, 1)[0][1]]
-				return "", err
-			}
+		if err, ok := err.(*SyntaxError); ok {
+			err.line = procesedLines + 1
+			err.file = "fileName.ego"
+			err.code = (*ego)[:regexp.MustCompile(`^[^\n]+`).FindAllStringIndex(*ego, 1)[0][1]]
+			return "", err
 		}
 
 		output += code
@@ -98,12 +96,16 @@ func cutNextWhiteSpaces(str *string) (cutted string) {
  */
 func cutNextComponent(ego *string, syntax Syntax) (code string, err error) {
 
+	if *ego == "" {
+		return "", errors.New("Empty string")
+	}
+
 	for _, variants := range syntax {
 		for _, variant := range variants {
 			if pos := variant.Test(ego); pos != nil {
 				isFirst := pos[0] == 0
 				if isFirst {
-					return variant.Get(ego, pos[1])
+					return variant.Get(ego, pos[1], syntax)
 				}
 			}
 		}

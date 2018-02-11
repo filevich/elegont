@@ -74,8 +74,6 @@ func surroundings(s string, loc int, radius ...int) (string, error) {
 	left = min(rad, dist_to_start)
 	right = min(rad, dist_to_end)
 
-	// fmt.Println("s:", s, loc-left, loc+right+1)
-
 	return s[loc-left : loc+right+1], nil
 
 }

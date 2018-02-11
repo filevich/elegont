@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"log"
 	"regexp"
 )
 
@@ -14,7 +14,9 @@ type IVariant interface {
 	Test(ego *string) (loc []int)
 
 	// PRE-REQUISITE: *first line* of param `ego` must match variant's definition
-	Get(ego *string, end int) (code string, err error)
+	Get(ego *string, end int, syntax Syntax) (code string, err error)
+
+	String() string
 }
 
 /***/
@@ -27,7 +29,11 @@ func (variant *inLine) Test(ego *string) (loc []int) {
 	return variant.Definition.FindStringIndex(*ego)
 }
 
-func (variant *inLine) Get(ego *string, end int) (code string, err error) {
+func (variant *inLine) String() string {
+	return variant.Definition.String()
+}
+
+func (variant *inLine) Get(ego *string, end int, syntax Syntax) (code string, err error) {
 	code = (*ego)[:end]
 	*ego = (*ego)[end:]
 	return code, nil
@@ -40,6 +46,10 @@ type inBlock struct { // implements IVariant
 	Delimiters []Delimiter
 }
 
+func (variant *inBlock) String() string {
+	return variant.Definition.String()
+}
+
 func (variant *inBlock) Test(ego *string) (loc []int) {
 	return variant.Definition.FindStringIndex(*ego)
 }
@@ -50,9 +60,9 @@ func (variant *inBlock) Test(ego *string) (loc []int) {
  * 1. Identify delimiter
  * 2. *Cut* block's content (in its "ego form") by appling DELIMITERS_STRATEGY
  * 3. "Recursivly call" `Dissect` (thus getting its "go form")
- * 4. Luckly, return the result of #4 nested in #0
+ * 4. Luckly, return the result of #3 "nested" in #0
  */
-func (variant *inBlock) Get(ego *string, end int) (code string, err error) {
+func (variant *inBlock) Get(ego *string, end int, syntax Syntax) (code string, err error) {
 	// Step 0.
 	header := (*ego)[:end]
 	*ego = (*ego)[end:]
@@ -65,9 +75,12 @@ func (variant *inBlock) Get(ego *string, end int) (code string, err error) {
 
 	// Step 2.
 	egoContent := DELIMITERS_STRATEGY[delimiter](ego)
-	//return DELIMITERS_STRATEGY[variant.Delimiters[0]](*str)
 
-	return header + egoContent, nil
+	// Step 3.
+	transContent, err := Dissect(&egoContent, syntax)
+
+	// Step 4.
+	return header + " {\n" + transContent + "\n}", nil
 }
 
 func (variant *inBlock) hasDefined(del Delimiter) bool {
@@ -155,14 +168,36 @@ var DELIMITERS_STRATEGY = map[Delimiter](DelimiterStrategy){
 		return block
 	}),
 
-	CURLY_BRACKETS:
-	/**
-	 * 0. --
-	 */
-	(func(ego *string) string {
+	CURLY_BRACKETS: (func(ego *string) string {
 
-		*ego = (*ego)[len(getFirstLine(*ego)):]
-		return "HOLA"
+		var opening_char byte = '{'
+		ignore := ALL_QUOTES
+		loc, err := getChunk(ego, opening_char, ignore)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		block := (*ego)[loc[0]+1 : loc[1]]
+		(*ego) = (*ego)[loc[1]+1:]
+
+		return block
+	}),
+
+	ROUND_BRACKETS: (func(ego *string) string {
+
+		var opening_char byte = '('
+		ignore := ALL_QUOTES
+		loc, err := getChunk(ego, opening_char, ignore)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		block := (*ego)[loc[0]+1 : loc[1]]
+		(*ego) = (*ego)[loc[1]+1:]
+
+		return block
 	}),
 }
 
@@ -174,9 +209,4 @@ type SyntaxError struct {
 
 func (e *SyntaxError) Error() string {
 	return fmt.Sprintf("\nRoses are red\nViolets are blue\nSyntax error\n\n %v:%v: %v\n", e.file, e.line, e.code)
-}
-
-func (e *SyntaxError) Print() {
-	fmt.Println(e)
-	os.Exit(1)
 }
