@@ -1,4 +1,6 @@
 ## Todo
+  * Factorize CURLY_BRACKETS ROUND_BRACKETS
+  * IdentifyDelimiter error return
   * syntax_utils_test.go:14
   * File name reference when syntax error happens
 
