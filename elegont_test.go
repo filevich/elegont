@@ -12,7 +12,7 @@ import (
 )
 
 func TestCustom(t *testing.T) {
-	config, _ := NewConfig("./examples/config/Elegont.yaml")
+	config, _ := NewConfig("./examples/config/Elegont-1.0.0.yaml")
 
 	data, err := ioutil.ReadFile(config.Input_dir + "simple-bucle" + config.File_extension)
 	check(err)
@@ -32,7 +32,7 @@ func TestCustom(t *testing.T) {
 }
 
 func TestCustom2(t *testing.T) {
-	config, _ := NewConfig("./examples/config/Elegont.yaml")
+	config, _ := NewConfig("./examples/config/Elegont-1.0.0.yaml")
 
 	data, err := ioutil.ReadFile(config.Input_dir + "simple-file" + config.File_extension)
 	check(err)

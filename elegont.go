@@ -53,7 +53,7 @@ func Dissect(ego *string, syntax Syntax) (string, error) {
 		whiteSpaces := nextWhiteSpaces(ego)
 		output += whiteSpaces
 		procesedLines += countLines(&whiteSpaces)
-		code, err := cutNextComponent(ego, syntax)
+		code, err := nextComponent(ego, syntax)
 
 		if err, ok := err.(*SyntaxError); ok {
 			err.line = procesedLines + 1
@@ -94,7 +94,7 @@ func nextWhiteSpaces(str *string) (cutted string) {
  * @param  str *string 	ego code
  * @return code str 		go code
  */
-func cutNextComponent(ego *string, syntax Syntax) (code string, err error) {
+func nextComponent(ego *string, syntax Syntax) (code string, err error) {
 
 	if *ego == "" {
 		return "", errors.New("Empty string")

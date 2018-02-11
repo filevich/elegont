@@ -1,8 +1,8 @@
-# test-custom-config-2
+# Elegont v1.0.0
 
 file_extension:  .ego
 input_dir:       ./examples/
-out_dir:         ./test/out/
+out_dir:         ./test/got/
 recursive:       FALSE
 remove_comments: TRUE
 last_comma:      FALSE
