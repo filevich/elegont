@@ -50,7 +50,7 @@ func Dissect(ego *string, syntax Syntax) (string, error) {
 	)
 
 	for !empty(*ego) {
-		whiteSpaces := cutNextWhiteSpaces(ego)
+		whiteSpaces := nextWhiteSpaces(ego)
 		output += whiteSpaces
 		procesedLines += countLines(&whiteSpaces)
 		code, err := cutNextComponent(ego, syntax)
@@ -70,11 +70,11 @@ func Dissect(ego *string, syntax Syntax) (string, error) {
 }
 
 /**
- * Cuts the first consecutives (\s or \n)'s
+ * Cuts first (\s or \n)'s consecutives chars
  * @param str *string
  * @return cutted string 	removed string from str.
  */
-func cutNextWhiteSpaces(str *string) (cutted string) {
+func nextWhiteSpaces(str *string) (cutted string) {
 	whiteSpaces := regexp.MustCompile(`^(\s|\n)*`)
 	pos := whiteSpaces.FindStringIndex(*str)
 
@@ -89,7 +89,7 @@ func cutNextWhiteSpaces(str *string) (cutted string) {
 }
 
 /**
- * Cuts the first `Component` of code from `*str`, according to `syntax`
+ * Cuts ego's first `Component`, according to `syntax`
  * Idea: Iterates on syntax[i][j] and stops once regex match's index is 0.
  * @param  str *string 	ego code
  * @return code str 		go code
