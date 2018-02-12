@@ -62,7 +62,7 @@ func Dissect(ego *string, syntax Syntax) (string, error) {
 			return "", err
 		}
 
-		output += code
+		output += fixIdent(code, whiteSpaces)
 		procesedLines += countLines(&code)
 	}
 
@@ -112,4 +112,18 @@ func nextComponent(ego *string, syntax Syntax) (code string, err error) {
 	}
 
 	return "", &SyntaxError{}
+}
+
+func fixIdent(code string, whiteSpaces string) string {
+	var (
+		empty           = len(code) == 0
+		isLastCharCurly = !empty && code[len(code)-1] == '}'
+	)
+
+	if isLastCharCurly {
+		return code[:len(code)-1] + getLastLine(whiteSpaces) + "}\n\n"
+
+	} else {
+		return code
+	}
 }

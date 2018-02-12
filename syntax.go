@@ -80,7 +80,7 @@ func (variant *inBlock) Get(ego *string, end int, syntax Syntax) (code string, e
 	transContent, err := Dissect(&egoContent, syntax)
 
 	// Step 4.
-	return header + " {\n" + transContent + "}\n", nil
+	return header + " {\n" + transContent + "}", nil
 }
 
 func (variant *inBlock) hasDefined(del Delimiter) bool {

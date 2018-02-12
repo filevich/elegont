@@ -12,15 +12,20 @@ var (
 	ESCAPE     byte = '\\'
 )
 
-/**
- * Copy str's first line and returns it
- */
 func getFirstLine(str string) (nextLine string) {
 	breakLinePos := regexp.MustCompile(`\n`).FindStringIndex(str)
 	if breakLinePos == nil {
 		return str
 	}
 	return str[:breakLinePos[1]]
+}
+
+func getLastLine(str string) (lastLine string) {
+	breakLinePos := regexp.MustCompile(`[^\n]*$`).FindStringIndex(str)
+	if breakLinePos == nil {
+		return str
+	}
+	return str[breakLinePos[0]:]
 }
 
 /**
@@ -38,9 +43,9 @@ func getIdentPatt(str string) (pattern string) {
  * the algorithm will return the position of the block content
  * delimited by this last mentioned param and its counterpart (e.g.: `}`, `>`, `"`, `'` et al)
  *
- * @param  str          string        code
- * @param  opening_char string        e.g.: `{`, `<`, `"`, `'` et al
- * @param  ignore       []string      This is a set of potentially harmful character.
+ * @param  code         *string
+ * @param  opening_char byte          e.g.: `{`, `<`, `"`, `'` et al
+ * @param  ignore       []byte        This is a set of potentially harmful character.
  *                                    i.e.: other opening chars.
  *                                    Example: If we are interested in finding the counterpart of
  *                                    `{` in the following code:

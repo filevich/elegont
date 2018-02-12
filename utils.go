@@ -40,7 +40,8 @@ func InSlice(x byte, arr []byte) bool {
 }
 
 func debugSpaces(s string) string {
-	return strings.Replace(s, " ", "*", -1)
+	noNewLines := strings.Replace(s, "\n", "N", -1)
+	return strings.Replace(noNewLines, " ", "*", -1)
 }
 
 func min(a, b int) int {
