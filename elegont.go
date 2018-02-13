@@ -121,7 +121,7 @@ func fixIdent(code string, whiteSpaces string) string {
 	)
 
 	if isLastCharCurly {
-		return code[:len(code)-1] + getLastLine(whiteSpaces) + "}\n\n"
+		return code[:len(code)-1] + getLastLine(whiteSpaces) + "}\n"
 
 	} else {
 		return code

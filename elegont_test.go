@@ -1,20 +1,22 @@
 package main
 
 import (
-	//"errors"
-	// "errors"
-	//"fmt"
 	"io/ioutil"
-	//"os"
-	// "regexp"
 	"log"
 	"testing"
 )
 
-func TestCustom(t *testing.T) {
-	config, _ := NewConfig("./examples/Elegont-1.0.0.yaml")
+func Test_SimpleBucle(t *testing.T) {
 
-	data, err := ioutil.ReadFile(config.Input_dir + "simple-bucle" + config.File_extension)
+	var (
+		configPath      = "./examples/Elegont-1.0.0.yaml"
+		config, _       = NewConfig(configPath)
+		fileName        = config.Input_dir + "simple-bucle" + config.File_extension
+		expectedData, _ = ioutil.ReadFile("./test/expected/simple-bucle.go")
+		expected        = string(expectedData)
+	)
+
+	data, err := ioutil.ReadFile(fileName)
 	check(err)
 
 	ego := string(data)
@@ -29,24 +31,26 @@ func TestCustom(t *testing.T) {
 		log.Print(err)
 		return
 	}
-}
 
-func TestCustom2(t *testing.T) {
-	config, _ := NewConfig("./examples/Elegont-1.0.0.yaml")
+	var (
+		trans_slim    = ignoreSpaces(trans)
+		expected_slim = ignoreSpaces(expected)
+		diff          = diff(trans_slim, expected_slim)
+		oops          = diff != -1
+	)
 
-	data, err := ioutil.ReadFile(config.Input_dir + "simple-file" + config.File_extension)
-	check(err)
+	if oops {
 
-	ego := string(data)
-	trans, err := Dissect(&ego, config.Syntax)
+		var (
+			trans_min, _    = surroundings(trans_slim, diff, 10)
+			expected_min, _ = surroundings(expected_slim, diff, 10)
+		)
 
-	if err != nil {
-		log.Print(err)
-		return
-	}
-
-	if err := ioutil.WriteFile(config.Out_dir+"simple-file.go", []byte(trans), 0644); err != nil {
-		log.Print(err)
-		return
+		t.Error(
+			"\nINPUT:", fileName,
+			"\nEXPECTED:", "`..."+trans_min+"...`",
+			"\nGOT:", "\t `..."+expected_min+"...`",
+			"\nRUN:", "`diff "+fileName+" "+config.Out_dir+"simple-bucle.go"+"`",
+		)
 	}
 }

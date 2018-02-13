@@ -44,11 +44,34 @@ func debugSpaces(s string) string {
 	return strings.Replace(noNewLines, " ", "*", -1)
 }
 
+func ignoreSpaces(s string) string {
+	noNewLines := strings.Replace(s, "\n", "", -1)
+	re := regexp.MustCompile(`\s{2,}`)
+	return re.ReplaceAllLiteralString(noNewLines, " ")
+}
+
 func min(a, b int) int {
 	if a < b {
 		return a
 	}
 	return b
+}
+
+func diff(s, t string) (loc int) {
+
+	if s == t {
+		return -1
+	}
+
+	var (
+		i = 0
+		m = min(len(s), len(t))
+	)
+
+	for ; i < m && s[i] == t[i]; i++ {
+	}
+
+	return i
 }
 
 func surroundings(s string, loc int, radius ...int) (string, error) {
