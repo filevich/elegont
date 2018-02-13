@@ -80,7 +80,7 @@ func (variant *inBlock) Get(ego *string, end int, syntax Syntax) (code string, e
 	transContent, err := Dissect(&egoContent, syntax)
 
 	// Step 4.
-	return header + " {\n" + transContent + "}", nil
+	return header + " {" + transContent + "}", nil
 }
 
 func (variant *inBlock) hasDefined(del Delimiter) bool {
@@ -148,6 +148,7 @@ var DELIMITERS_STRATEGY = map[Delimiter](DelimiterStrategy){
 	(func(ego *string) string {
 
 		// Step 0.
+		whiteChars := (*ego)[:len(getFirstLine(*ego))]
 		*ego = (*ego)[len(getFirstLine(*ego)):]
 
 		// Step 1.
@@ -165,7 +166,7 @@ var DELIMITERS_STRATEGY = map[Delimiter](DelimiterStrategy){
 			}
 		}
 
-		return block
+		return whiteChars + block
 	}),
 
 	CURLY_BRACKETS: (func(ego *string) string {
