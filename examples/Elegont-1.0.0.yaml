@@ -1,8 +1,8 @@
 # Elegont v1.0.0
 
 file_extension:  .ego
-input_dir:       ./examples/
-out_dir:         ./test/got/
+input_dir:       ./test/input/
+out_dir:         ./test/output/
 recursive:       FALSE
 remove_comments: TRUE
 last_comma:      FALSE
