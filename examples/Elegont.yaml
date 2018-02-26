@@ -1,4 +1,4 @@
-# Elegont v1.0.0
+# Elegont 2017 v1.0.0
 
 file_extension:  .ego
 input_dir:       ./test/input/
@@ -39,7 +39,7 @@ syntax:
 
   variable:
     - variant:    inLine
-      definition: let\s[[:alpha:]]+\s[[:alpha:]]+\s\=\s.+ # e.g.: let n int = 99
+      definition: let\s(?P<NAME>[[:alpha:]]+)\s(?P<TYPE>[[:alpha:]]+)\s\=\s(?P<VALUE>.+) # e.g.: let n int = 99
 
   for:
     - variant:    inBlock
