@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"regexp"
 	"strings"
+	"fmt"
 
 	"github.com/iancoleman/strcase"
 	"gopkg.in/yaml.v2"
@@ -41,9 +42,9 @@ func NewConfig(filePath ...string) (*Config, error) {
 
 	if filePath != nil {
 		c.loadConfig(filePath[0])
-	} else {
-		c.Syntax = defaultSyntax
-	}
+	} //else {
+	//	c.Syntax = defaultSyntax
+	//}
 
 	return c, nil
 }
@@ -70,58 +71,9 @@ func (c *Config) loadConfig(filePath ...string) {
 
 	for component, variants := range syntaxBuffer {
 		for _, variantDATA := range variants {
-			v := NewVariant(variantDATA)
+			v := NewVariant(component, variantDATA)
 			x := Component(strcase.ToCamel(component))
 			c.Syntax[x] = append(c.Syntax[x], v)
 		}
 	}
-}
-
-var defaultSyntax = Syntax{
-	"Import": {
-		&inLine{
-			Definition: regexp.MustCompile(`var1`),
-		},
-	},
-	"Comment": {
-		&inLine{
-			Definition: regexp.MustCompile(`var1`),
-		},
-	},
-	"If": {
-		&inLine{
-			Definition: regexp.MustCompile(`var1`),
-		},
-	},
-	"For": {
-		&inBlock{
-			Definition: regexp.MustCompile(`for`),
-			Delimiters: []Delimiter{TABS},
-		},
-	},
-	"While": {
-		&inLine{
-			Definition: regexp.MustCompile(`var1`),
-		},
-	},
-	"Package": {
-		&inLine{
-			Definition: regexp.MustCompile(`var1`),
-		},
-	},
-	"Type": {
-		&inLine{
-			Definition: regexp.MustCompile(`var1`),
-		},
-	},
-	"Struct": {
-		&inLine{
-			Definition: regexp.MustCompile(`var1`),
-		},
-	},
-	"Variable": {
-		&inLine{
-			Definition: regexp.MustCompile(`var1`),
-		},
-	},
 }

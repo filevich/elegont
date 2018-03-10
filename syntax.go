@@ -15,8 +15,6 @@ type IVariant interface {
 
 	// PRE-REQUISITE: *first line* of param `ego` must match variant's definition
 	Get(ego *string, end int, syntax Syntax) (code string, err error)
-
-	String() string
 }
 
 /***/
@@ -29,25 +27,20 @@ func (variant *inLine) Test(ego *string) (loc []int) {
 	return variant.Definition.FindStringIndex(*ego)
 }
 
-func (variant *inLine) String() string {
-	return variant.Definition.String()
-}
-
 func (variant *inLine) Get(ego *string, end int, syntax Syntax) (code string, err error) {
 	code = (*ego)[:end]
 	*ego = (*ego)[end:]
 	return code, nil
 }
 
+
+
+
 /***/
 
 type inBlock struct { // implements IVariant
 	Definition *regexp.Regexp
 	Delimiters []Delimiter
-}
-
-func (variant *inBlock) String() string {
-	return variant.Definition.String()
 }
 
 func (variant *inBlock) Test(ego *string) (loc []int) {
@@ -210,4 +203,73 @@ type SyntaxError struct {
 
 func (e *SyntaxError) Error() string {
 	return fmt.Sprintf("\nRoses are red\nViolets are blue\nSyntax error\n\n %v:%v: %v\n", e.file, e.line, e.code)
+}
+
+
+
+
+
+
+
+
+
+/*
+
+IVariant2/Variant
+  |- Liner
+  |  |- LVariable
+  |- Blocker
+  	|- LBlocker
+
+*/
+
+type IVariant_ interface {
+	Test(ego *string) (loc []int)
+	Get(ego *string, end int, syntax Syntax) (code string, err error)
+}
+
+type Variant struct {
+	Definition *regexp.Regexp
+}
+
+func (this *Variant) Test(ego *string) (loc []int) {
+	return this.Definition.FindStringIndex(*ego)
+}
+
+func (this *Variant) Get(ego *string, end int, syntax Syntax) (code string, err error) {
+	return "", nil
+}
+
+func (this *Variant) cutHeader(ego *string, end int, syntax Syntax) (code string, err error) {
+	code = (*ego)[:end]
+	*ego = (*ego)[end:]
+	return code
+}
+
+type MultilineVariant struct {
+	*Variant
+	Delimiters []Delimiter
+}
+
+
+
+
+
+
+
+/* Variable */
+
+type Classic_Variable struct {
+	*Variant
+}
+
+func (this *Classic_Variable) Get(ego *string, end int, syntax Syntax) (code string, err error) {
+
+	header := this.cutHeader(ego, end)
+
+	match := this.Definition.FindStringSubmatch(code)
+
+	return "var " match[1] + " " + match[2] + " = " + match[3], nil
+
+	//fmt.Println("NAME:", match[1], "TYPE:", match[2], "VALUE:", match[3])
 }

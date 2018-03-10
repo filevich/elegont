@@ -101,3 +101,12 @@ func surroundings(s string, loc int, radius ...int) (string, error) {
 	return s[loc-left : loc+right+1], nil
 
 }
+
+func findIndex(val string, arr []string) int {
+	for i, x := range arr {
+        if x == val {
+            return i
+        }
+    }
+    return -1
+}

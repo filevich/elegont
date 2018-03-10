@@ -21,3 +21,5 @@ clean:
 	@rm -rf $(OUTPUT)
 
 rebuild: clean all;
+
+# go test -v config.go syntax.go utils.go syntax_YAML.go elegont.go syntax_utils.go elegont_test.go

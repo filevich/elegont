@@ -45,7 +45,7 @@ func TestNewConfigCustom2(t *testing.T) {
 }
 
 func TestNewConfigCustom3(t *testing.T) {
-	c, err := NewConfig("./examples/config/Elegont.yaml")
+	c, err := NewConfig("./examples/Elegont.yaml")
 	check(err)
 
 	t.Log(c)

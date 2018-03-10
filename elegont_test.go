@@ -4,17 +4,26 @@ import (
 	"io/ioutil"
 	"log"
 	"testing"
+	"regexp"
 )
 
 func Test_SimpleBucle(t *testing.T) {
 
 	var (
-		configPath      = "./examples/Elegont-1.0.0.yaml"
+		configPath      = "./examples/Elegont.yaml"
 		config, _       = NewConfig(configPath)
 		fileName        = config.Input_dir + "simple-bucle" + config.File_extension
 		expectedData, _ = ioutil.ReadFile("./test/expected/simple-bucle.go")
 		expected        = string(expectedData)
 	)
+
+	ilv := &IL_Variable{  
+			&inLine{
+				Definition: regexp.MustCompile(`let\s(?P<NAME>[[:alpha:]]+)\s(?P<TYPE>[[:alpha:]]+)\s\=\s(?P<VALUE>.+)`),
+			}, 
+		}
+
+	config.Syntax["Variable"] = []IVariant{ ilv }
 
 	data, err := ioutil.ReadFile(fileName)
 	check(err)

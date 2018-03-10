@@ -127,3 +127,37 @@ func Test_Surroundings6(t *testing.T) {
 		)
 	}
 }
+
+
+func Test_FindValueIndex(t *testing.T) {
+
+	var (
+		arr      = []string{"ABC", "DEF", "GHI"}
+		got      = findIndex("GHI", arr)
+		expected = 2
+		oops     = expected != got
+	)
+
+	if oops {
+		t.Error(
+			"\nFOR:", arr,
+			"\nEXPECTED:", expected,
+			"\nGOT:", got,
+		)
+	}
+
+	
+	arr      = []string{"ABC", "DEF", "GHI"}
+	got      = findIndex("ABCD", arr)
+	expected = -1
+	oops     = expected != got
+
+
+	if oops {
+		t.Error(
+			"\nFOR:", arr,
+			"\nEXPECTED:", expected,
+			"\nGOT:", got,
+		)
+	}
+}

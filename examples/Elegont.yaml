@@ -10,50 +10,43 @@ identation:      TAB
 syntax:
 
   import:
-    - variant:    inLine
-      definition: import\s\"[[:alpha:]]+\" # e.g.: import "fmt"
+    - definition: import\s\"[[:alpha:]]+\" # e.g.: import "fmt"
 
   comment:
-    - variant:    inLine
-      definition: someregexphere
+    - definition: someregexphere
 
   if:
-    - variant:    inLine
-      definition: someregexphere
+    - definition: someregexphere
 
   while:
-    - variant:    inLine
-      definition: someregexphere
+    - definition: someregexphere
 
   package:
-    - variant:    inLine
-      definition: package\s[[:alpha:]]+
+    - definition: package\s[[:alpha:]]+
 
   type:
-    - variant:    inLine
-      definition: someregexphere
+    - definition: someregexphere
 
   struct:
-    - variant:    inLine
-      definition: someregexphere
+    - definition: someregexphere
 
   variable:
-    - variant:    inLine
-      definition: let\s(?P<NAME>[[:alpha:]]+)\s(?P<TYPE>[[:alpha:]]+)\s\=\s(?P<VALUE>.+) # e.g.: let n int = 99
-
+    - definition: let\s(?P<NAME>[[:alpha:]]+)\s(?P<TYPE>[[:alpha:]]+)\s\=\s(?P<VALUE>.+) # e.g.: `let n int = 99`
+    
+    - definition: (?P<NAME>[[:alpha:]]+)\s?\:\=\s?(?P<VALUE>.+) # e.g.: `n := 99`
+    
+    - definition: VAR # e.g.: `VAR ( ... )`
+      delimiters: [ROUND_BRACKETS]
+    
   for:
-    - variant:    inBlock
-      definition: for [^\n]+\; [^\n]+\; [^\n]+
+    - definition: for [^\n]+\; [^\n]+\; [^\n]+
       delimiters: [TABS]
 
   func:
-    - variant:    inLine
-      definition: ([[:word:]]+)(\.[[:word:]]+)?\([^\n]+\) # e.g.: fmt.Printf("Hello bro %v", n)
+    - definition: ([[:word:]]+)(\.[[:word:]]+)?\([^\n]+\) # e.g.: fmt.Printf("Hello bro %v", n)
 
-    - variant:    inBlock
-      definition: func\s[[:alpha:]]+\(.?\) # e.g.: func main()
+    - definition: func\s[[:alpha:]]+\(.?\) # e.g.: func main()
       delimiters: [CURLY_BRACKETS, TABS]
 
   inc:
-    - variant:    inLine
-      definition: ([[:word:]]+)\+\+ # e.g.: n++
+    - definition: ([[:word:]]+)\+\+ # e.g.: n++
