@@ -11,7 +11,7 @@ straight out of 1984
 ---
 
 How it all started:
-> me@2017: "Ok, time to learn go-lang that you all are talking about". 
+> me@2017: "Ok, time to learn this go-lang that you all seem to be talking about". 
 
 > alright let's make a simple if-statement: `if (true) foo()` 
 
