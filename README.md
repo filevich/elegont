@@ -60,3 +60,15 @@ func main() {
 	}
 }
 ```
+
+----
+
+plot twist: 
+```
+1. realise how beauty the go lang is, even with all its syntactical restriction.
+2. Rob Pike goes from devil to hero
+3. falls in love with Rob Pike.
+4. starts a religion where Rob Pike is the messiah.
+5. got cmpilation error.
+6. hates go & Rob Pike, and the cycles repeats.
+```
