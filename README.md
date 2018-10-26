@@ -4,25 +4,12 @@ straight out of 1984
 
 ----
 
-**\#YetAnotherUnifinishedAndUnpolishedGitProject** 
+The original motivation was:
 
-**\#YouveBeenWarnedThough** 
+1. Learn Go
+2. Fight GoLang syntactic rigidity and make it more stylysh (i.e., Phyton-ish/Phythonian) by creating this transpiler.
 
----
-
-How it all started:
-> me@2017: "Ok, time to learn this go-lang that you all seem to be talking about". 
-
-> alright let's make a simple if-statement: `if (true) foo()` 
-
-> *got compilation error*
-
-> hmmm, weird. *tries again*
-
-> *got same compilation error*
-
-> **Old Man Yells at ~~Cloud~~ Rob Pike, and tries to reinvent the wheel while learning how the wheel works.**
-
+Quickly, it become a much more of ambitious proyect: a complete agnostic & customizable transpiler. Unfortunatly, the (originally fairly simple) architecutre of the program would not suppor this sort of complexity, augmenting code enthropy making coding a not-so-fun of experience.
 
 idea: (e.g.)
 transpile this input: (`test/input/simple-bucle.ego`)
@@ -42,7 +29,7 @@ func main() {
 }
 ```
 
-to this (.go) output: (`test/expected/simple-bucle.go`)
+into this (.go) output: (`test/expected/simple-bucle.go`)
 ```
 package main
 
@@ -59,16 +46,4 @@ func main() {
 		}
 	}
 }
-```
-
-----
-
-plot twist: 
-```
-1. realise how beauty the go lang is, even with all its syntactical restriction.
-2. Rob Pike goes from devil to hero
-3. falls in love with Rob Pike.
-4. starts a religion where Rob Pike is the messiah.
-5. got cmpilation error.
-6. hates go & Rob Pike, and the cycles repeats.
 ```
