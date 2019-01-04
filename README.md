@@ -4,7 +4,7 @@ straight out of 1984
 
 ----
 
-The original motivation was:
+The initial motivations were:
 
 1. Learn Go
 2. Fight GoLang syntactic rigidity and make it more stylysh (i.e., Phyton-ish/Phythonian) by creating this transpiler.
