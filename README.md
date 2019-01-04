@@ -9,7 +9,7 @@ The initial motivations were:
 1. Learn Go
 2. Fight GoLang syntactic rigidity and make it more stylysh (i.e., Phyton-ish/Phythonian) by creating this transpiler.
 
-Quickly, it become a much more of ambitious proyect: a complete agnostic & customizable transpiler. Unfortunatly, the (originally fairly simple) architecutre of the program would not suppor this sort of complexity, augmenting code enthropy making coding a not-so-fun of experience.
+Quickly, it became a much more of ambitious proyect: a complete agnostic & customizable transpiler. Unfortunatly, the (originally fairly simple) architecutre of the program would not suppor this sort of complexity, augmenting code enthropy making coding a not-so-fun of experience.
 
 idea: (e.g.)
 transpile this input: (`test/input/simple-bucle.ego`)
